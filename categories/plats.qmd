@@ -1,7 +1,7 @@
 ---
 title: "Plats"
 listing:
-  contents: /recettes
+  contents: ../recettes/*.qmd
   type: grid
   sort: "date desc"
   categories: true
