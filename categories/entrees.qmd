@@ -1,7 +1,7 @@
 ---
 title: "Entrées"
 listing:
-  contents: recettes
+  contents: ../recettes
   type: grid
   sort: "date desc"
   categories: true
