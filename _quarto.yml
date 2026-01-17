@@ -20,6 +20,8 @@ website:
             href: categories/plats.qmd
           - text: "Desserts"
             href: categories/desserts.qmd
+      - text: "➕ Ajouter une recette"
+        href: ajouter-recette.qmd
     right:
       - icon: github
         href: https://github.com/leonlevon0/mesRecettes

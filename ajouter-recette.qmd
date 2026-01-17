@@ -1,0 +1,390 @@
+---
+title: "Ajouter une Recette"
+page-layout: full
+---
+
+<div class="recipe-form-container">
+  <form id="recipeForm">
+    <h2>Informations générales</h2>
+
+    <div class="form-group">
+      <label for="title">Titre de la recette *</label>
+      <input type="text" id="title" required placeholder="Ex: Tarte aux pommes">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description courte *</label>
+      <textarea id="description" required placeholder="Une courte description de votre recette" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Catégorie *</label>
+      <select id="category" required>
+        <option value="">-- Choisir une catégorie --</option>
+        <option value="entree">Entrée</option>
+        <option value="plat">Plat</option>
+        <option value="dessert">Dessert</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Image (URL)</label>
+      <input type="url" id="image" placeholder="https://example.com/image.jpg">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="prepTime">Temps de préparation (min)</label>
+        <input type="number" id="prepTime" min="0" placeholder="30">
+      </div>
+      <div class="form-group">
+        <label for="cookTime">Temps de cuisson (min)</label>
+        <input type="number" id="cookTime" min="0" placeholder="45">
+      </div>
+      <div class="form-group">
+        <label for="servings">Nombre de portions</label>
+        <input type="number" id="servings" min="1" placeholder="4">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="difficulty">Difficulté</label>
+      <select id="difficulty">
+        <option value="">-- Choisir --</option>
+        <option value="facile">Facile</option>
+        <option value="moyen">Moyen</option>
+        <option value="difficile">Difficile</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tags">Tags (séparés par des virgules)</label>
+      <input type="text" id="tags" placeholder="végétarien, sans gluten, rapide">
+    </div>
+
+    <h2>Ingrédients</h2>
+    <div id="ingredientsContainer">
+      <div class="ingredient-item">
+        <input type="text" class="ingredient-input" placeholder="Ex: 250g de farine">
+        <button type="button" class="btn-remove" onclick="removeIngredient(this)">✕</button>
+      </div>
+    </div>
+    <button type="button" class="btn-add" onclick="addIngredient()">+ Ajouter un ingrédient</button>
+
+    <h2>Instructions</h2>
+    <div id="instructionsContainer">
+      <div class="instruction-item">
+        <textarea class="instruction-input" placeholder="Étape 1: ..." rows="2"></textarea>
+        <button type="button" class="btn-remove" onclick="removeInstruction(this)">✕</button>
+      </div>
+    </div>
+    <button type="button" class="btn-add" onclick="addInstruction()">+ Ajouter une étape</button>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Générer le fichier de recette</button>
+      <button type="button" class="btn-secondary" onclick="resetForm()">Réinitialiser</button>
+    </div>
+  </form>
+
+  <div id="output" style="display: none;">
+    <h2>Fichier de recette généré</h2>
+    <p>Copiez le contenu ci-dessous et créez un nouveau fichier dans le dossier <code>recettes/</code> avec l'extension <code>.qmd</code></p>
+    <div class="filename-suggestion">
+      <strong>Nom suggéré:</strong> <code id="suggestedFilename"></code>
+    </div>
+    <textarea id="generatedContent" readonly rows="20"></textarea>
+    <button class="btn-primary" onclick="copyToClipboard()">📋 Copier dans le presse-papiers</button>
+  </div>
+</div>
+
+<style>
+.recipe-form-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.ingredient-item,
+.instruction-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ingredient-input,
+.instruction-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-add,
+.btn-remove {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-add {
+  background-color: #28a745;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+  min-width: 40px;
+}
+
+.btn-add:hover {
+  background-color: #218838;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+#output {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.filename-suggestion {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+#generatedContent {
+  width: 100%;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+</style>
+
+<script>
+function addIngredient() {
+  const container = document.getElementById('ingredientsContainer');
+  const div = document.createElement('div');
+  div.className = 'ingredient-item';
+  div.innerHTML = `
+    <input type="text" class="ingredient-input" placeholder="Ex: 250g de farine">
+    <button type="button" class="btn-remove" onclick="removeIngredient(this)">✕</button>
+  `;
+  container.appendChild(div);
+}
+
+function removeIngredient(button) {
+  const container = document.getElementById('ingredientsContainer');
+  if (container.children.length > 1) {
+    button.parentElement.remove();
+  }
+}
+
+function addInstruction() {
+  const container = document.getElementById('instructionsContainer');
+  const div = document.createElement('div');
+  div.className = 'instruction-item';
+  div.innerHTML = `
+    <textarea class="instruction-input" placeholder="Étape ${container.children.length + 1}: ..." rows="2"></textarea>
+    <button type="button" class="btn-remove" onclick="removeInstruction(this)">✕</button>
+  `;
+  container.appendChild(div);
+}
+
+function removeInstruction(button) {
+  const container = document.getElementById('instructionsContainer');
+  if (container.children.length > 1) {
+    button.parentElement.remove();
+  }
+}
+
+function resetForm() {
+  document.getElementById('recipeForm').reset();
+  document.getElementById('output').style.display = 'none';
+
+  // Reset ingredients
+  const ingredientsContainer = document.getElementById('ingredientsContainer');
+  ingredientsContainer.innerHTML = `
+    <div class="ingredient-item">
+      <input type="text" class="ingredient-input" placeholder="Ex: 250g de farine">
+      <button type="button" class="btn-remove" onclick="removeIngredient(this)">✕</button>
+    </div>
+  `;
+
+  // Reset instructions
+  const instructionsContainer = document.getElementById('instructionsContainer');
+  instructionsContainer.innerHTML = `
+    <div class="instruction-item">
+      <textarea class="instruction-input" placeholder="Étape 1: ..." rows="2"></textarea>
+      <button type="button" class="btn-remove" onclick="removeInstruction(this)">✕</button>
+    </div>
+  `;
+}
+
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+document.getElementById('recipeForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const title = document.getElementById('title').value;
+  const description = document.getElementById('description').value;
+  const category = document.getElementById('category').value;
+  const image = document.getElementById('image').value;
+  const prepTime = document.getElementById('prepTime').value;
+  const cookTime = document.getElementById('cookTime').value;
+  const servings = document.getElementById('servings').value;
+  const difficulty = document.getElementById('difficulty').value;
+  const tags = document.getElementById('tags').value;
+
+  const ingredients = Array.from(document.querySelectorAll('.ingredient-input'))
+    .map(input => input.value.trim())
+    .filter(val => val !== '');
+
+  const instructions = Array.from(document.querySelectorAll('.instruction-input'))
+    .map(input => input.value.trim())
+    .filter(val => val !== '');
+
+  const today = new Date().toISOString().split('T')[0];
+
+  let content = `---
+title: "${title}"
+description: "${description}"
+date: "${today}"
+categories: ["${category}"]`;
+
+  if (image) {
+    content += `\nimage: "${image}"`;
+  }
+
+  if (prepTime) {
+    content += `\nprepTime: ${prepTime}`;
+  }
+
+  if (cookTime) {
+    content += `\ncookTime: ${cookTime}`;
+  }
+
+  if (servings) {
+    content += `\nservings: ${servings}`;
+  }
+
+  if (difficulty) {
+    content += `\ndifficulty: "${difficulty}"`;
+  }
+
+  if (tags) {
+    const tagArray = tags.split(',').map(t => `"${t.trim()}"`).join(', ');
+    content += `\ntags: [${tagArray}]`;
+  }
+
+  content += `\n---\n\n`;
+
+  if (ingredients.length > 0) {
+    content += `## Ingrédients\n\n`;
+    ingredients.forEach(ing => {
+      content += `- ${ing}\n`;
+    });
+    content += `\n`;
+  }
+
+  if (instructions.length > 0) {
+    content += `## Instructions\n\n`;
+    instructions.forEach((inst, idx) => {
+      content += `${idx + 1}. ${inst}\n`;
+    });
+  }
+
+  document.getElementById('generatedContent').value = content;
+  const filename = slugify(title) + '.qmd';
+  document.getElementById('suggestedFilename').textContent = `recettes/${filename}`;
+  document.getElementById('output').style.display = 'block';
+  document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+});
+
+function copyToClipboard() {
+  const content = document.getElementById('generatedContent');
+  content.select();
+  document.execCommand('copy');
+  alert('Contenu copié dans le presse-papiers !');
+}
+</script>
