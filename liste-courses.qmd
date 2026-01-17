@@ -11,7 +11,7 @@ format:
 <div class="shopping-list-container">
   <div class="intro-section">
     <h2>📝 Générer ma liste de courses</h2>
-    <p>Sélectionnez les recettes que vous souhaitez préparer et générez automatiquement votre liste de courses.</p>
+    <p>Sélectionnez les recettes que vous souhaitez préparer, ajustez les portions, et générez automatiquement votre liste de courses.</p>
   </div>
 
   <div class="recipes-selection">
@@ -175,13 +175,40 @@ format:
 .selected-tag {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 20px;
-  margin: 0.25rem;
+  border-radius: 8px;
+  margin: 0.5rem;
   font-size: 0.95rem;
+  vertical-align: top;
+}
+
+.selected-tag-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.selected-tag-title {
+  font-weight: 600;
+}
+
+.selected-tag-servings {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.servings-input {
+  width: 60px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .selected-tag button {
@@ -309,44 +336,19 @@ format:
 
 <script>
 let allRecipes = [];
-let selectedRecipes = new Set();
+let selectedRecipes = new Map(); // Map<recipeId, {recipe, servings}>
 
-// Simuler le chargement des recettes (à remplacer par un vrai fetch)
+// Charger les recettes depuis le fichier JSON
 async function loadRecipes() {
-  // En production, cela devrait charger depuis les fichiers .qmd
-  // Pour l'instant, on utilise des données d'exemple
-  allRecipes = [
-    {
-      id: 'risotto',
-      title: 'Risotto aux champignons',
-      category: 'plat',
-      ingredients: [
-        '300g de riz arborio',
-        '400g de champignons de Paris',
-        '1L de bouillon de légumes',
-        '1 oignon',
-        '100ml de vin blanc',
-        '50g de parmesan',
-        '2 cuillères à soupe d\'huile d\'olive',
-        'Sel et poivre'
-      ]
-    },
-    {
-      id: 'tarte-pommes',
-      title: 'Tarte aux pommes',
-      category: 'dessert',
-      ingredients: [
-        '1 pâte feuilletée',
-        '4 pommes',
-        '50g de sucre',
-        '1 cuillère à café de cannelle',
-        '30g de beurre',
-        '2 cuillères à soupe de confiture d\'abricot'
-      ]
-    }
-  ];
-
-  displayRecipes();
+  try {
+    const response = await fetch('recettes/recettes-data.json');
+    allRecipes = await response.json();
+    displayRecipes();
+  } catch (error) {
+    console.error('Erreur lors du chargement des recettes:', error);
+    document.getElementById('recipesList').innerHTML =
+      '<p class="empty-message">Erreur lors du chargement des recettes. Veuillez réessayer.</p>';
+  }
 }
 
 function displayRecipes() {
@@ -372,19 +374,32 @@ function displayRecipes() {
         ${recipe.category === 'entree' ? 'Entrée' : recipe.category === 'plat' ? 'Plat' : 'Dessert'}
       </div>
       <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
-        ${recipe.ingredients.length} ingrédients
+        ${recipe.ingredients.length} ingrédients • Pour ${recipe.servings} ${recipe.servings > 1 ? 'personnes' : 'personne'}
       </p>
     </div>
   `).join('');
 }
 
 function toggleRecipe(recipeId) {
+  const recipe = allRecipes.find(r => r.id === recipeId);
+
   if (selectedRecipes.has(recipeId)) {
     selectedRecipes.delete(recipeId);
   } else {
-    selectedRecipes.add(recipeId);
+    selectedRecipes.set(recipeId, {
+      recipe: recipe,
+      servings: recipe.servings
+    });
   }
   updateUI();
+}
+
+function updateServings(recipeId, newServings) {
+  const selection = selectedRecipes.get(recipeId);
+  if (selection && newServings > 0) {
+    selection.servings = parseInt(newServings);
+    selectedRecipes.set(recipeId, selection);
+  }
 }
 
 function updateUI() {
@@ -409,11 +424,25 @@ function updateUI() {
     selectedContainer.innerHTML = '<p class="empty-message">Aucune recette sélectionnée</p>';
     document.getElementById('generateButton').disabled = true;
   } else {
-    selectedContainer.innerHTML = Array.from(selectedRecipes).map(id => {
-      const recipe = allRecipes.find(r => r.id === id);
+    selectedContainer.innerHTML = Array.from(selectedRecipes.entries()).map(([id, selection]) => {
+      const recipe = selection.recipe;
       return `
         <span class="selected-tag">
-          ${recipe.title}
+          <div class="selected-tag-content">
+            <span class="selected-tag-title">${recipe.title}</span>
+            <div class="selected-tag-servings">
+              <label>Pour
+                <input type="number"
+                       class="servings-input"
+                       value="${selection.servings}"
+                       min="1"
+                       max="99"
+                       onclick="event.stopPropagation()"
+                       onchange="updateServings('${id}', this.value)">
+                ${selection.servings > 1 ? 'personnes' : 'personne'}
+              </label>
+            </div>
+          </div>
           <button onclick="event.stopPropagation(); toggleRecipe('${id}')">×</button>
         </span>
       `;
@@ -437,23 +466,36 @@ function filterRecipes() {
   });
 }
 
+function parseIngredient(ingredient, ratio) {
+  // Extraire les nombres et les multiplier par le ratio
+  return ingredient.replace(/(\d+(?:[.,]\d+)?)/g, (match) => {
+    const num = parseFloat(match.replace(',', '.'));
+    const scaled = num * ratio;
+    // Arrondir à 1 décimale si nécessaire
+    return scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(1).replace('.', ',');
+  });
+}
+
 function generateShoppingList() {
   const ingredients = {};
 
-  // Collecter tous les ingrédients des recettes sélectionnées
-  selectedRecipes.forEach(recipeId => {
-    const recipe = allRecipes.find(r => r.id === recipeId);
+  // Collecter tous les ingrédients des recettes sélectionnées avec ajustement des portions
+  selectedRecipes.forEach((selection, recipeId) => {
+    const recipe = selection.recipe;
+    const ratio = selection.servings / recipe.servings;
+
     recipe.ingredients.forEach(ingredient => {
-      const normalized = ingredient.toLowerCase();
-      if (!ingredients[normalized]) {
-        ingredients[normalized] = {
-          original: ingredient,
-          count: 1,
-          recipes: [recipe.title]
+      const scaledIngredient = parseIngredient(ingredient, ratio);
+      const key = ingredient.toLowerCase().replace(/\d+/g, '').trim(); // Clé normalisée pour grouper les ingrédients similaires
+
+      if (!ingredients[key]) {
+        ingredients[key] = {
+          items: [scaledIngredient],
+          recipes: [{ title: recipe.title, servings: selection.servings }]
         };
       } else {
-        ingredients[normalized].count++;
-        ingredients[normalized].recipes.push(recipe.title);
+        ingredients[key].items.push(scaledIngredient);
+        ingredients[key].recipes.push({ title: recipe.title, servings: selection.servings });
       }
     });
   });
@@ -466,9 +508,9 @@ function generateShoppingList() {
   const content = document.getElementById('shoppingListContent');
 
   let html = '<h3>Recettes sélectionnées:</h3><ul>';
-  selectedRecipes.forEach(id => {
-    const recipe = allRecipes.find(r => r.id === id);
-    html += `<li>${recipe.title}</li>`;
+  selectedRecipes.forEach((selection, id) => {
+    const recipe = selection.recipe;
+    html += `<li><strong>${recipe.title}</strong> - ${selection.servings} ${selection.servings > 1 ? 'personnes' : 'personne'}</li>`;
   });
   html += '</ul>';
 
@@ -478,11 +520,16 @@ function generateShoppingList() {
         <h3>${category}</h3>
         <ul>`;
       categories[category].forEach(item => {
-        const detail = item.count > 1 ? ` <small>(pour ${item.count} recettes)</small>` : '';
-        html += `<li>
-          <input type="checkbox" onchange="this.parentElement.classList.toggle('checked')">
-          <span>${item.original}${detail}</span>
-        </li>`;
+        const uniqueItems = [...new Set(item.items)]; // Supprimer les doublons
+        const detail = item.recipes.length > 1 ?
+          ` <small>(${item.recipes.map(r => r.title).join(', ')})</small>` : '';
+
+        uniqueItems.forEach(ing => {
+          html += `<li>
+            <input type="checkbox" onchange="this.parentElement.classList.toggle('checked')">
+            <span>${ing}${detail}</span>
+          </li>`;
+        });
       });
       html += '</ul></div>';
     }
@@ -499,18 +546,18 @@ function categorizeIngredients(ingredients) {
     'Viandes et Poissons': [],
     'Produits Laitiers': [],
     'Épicerie': [],
-    'Condiments': [],
+    'Condiments et Épices': [],
     'Autres': []
   };
 
-  const fruitLegumes = ['pomme', 'poire', 'tomate', 'oignon', 'ail', 'champignon', 'carotte', 'poireau', 'salade'];
-  const viandes = ['poulet', 'bœuf', 'porc', 'poisson', 'saumon', 'thon'];
-  const laitiers = ['lait', 'crème', 'beurre', 'fromage', 'parmesan', 'yaourt'];
-  const epicerie = ['riz', 'pâtes', 'farine', 'sucre', 'pâte', 'bouillon'];
-  const condiments = ['sel', 'poivre', 'huile', 'vinaigre', 'moutarde', 'cannelle'];
+  const fruitLegumes = ['pomme', 'poire', 'tomate', 'oignon', 'ail', 'champignon', 'carotte', 'poireau', 'salade', 'courgette', 'aubergine'];
+  const viandes = ['poulet', 'bœuf', 'porc', 'poisson', 'saumon', 'thon', 'viande'];
+  const laitiers = ['lait', 'crème', 'beurre', 'fromage', 'parmesan', 'yaourt', 'mozzarella'];
+  const epicerie = ['riz', 'pâtes', 'farine', 'sucre', 'pâte', 'bouillon', 'vin'];
+  const condiments = ['sel', 'poivre', 'huile', 'vinaigre', 'moutarde', 'cannelle', 'confiture', 'arborio'];
 
   Object.values(ingredients).forEach(item => {
-    const lower = item.original.toLowerCase();
+    const lower = item.items[0].toLowerCase();
 
     if (fruitLegumes.some(f => lower.includes(f))) {
       categories['Fruits et Légumes'].push(item);
@@ -521,7 +568,7 @@ function categorizeIngredients(ingredients) {
     } else if (epicerie.some(e => lower.includes(e))) {
       categories['Épicerie'].push(item);
     } else if (condiments.some(c => lower.includes(c))) {
-      categories['Condiments'].push(item);
+      categories['Condiments et Épices'].push(item);
     } else {
       categories['Autres'].push(item);
     }

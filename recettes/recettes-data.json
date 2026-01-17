@@ -1,0 +1,32 @@
+[
+  {
+    "id": "exemple-risotto",
+    "title": "Risotto aux champignons",
+    "category": "plat",
+    "servings": 4,
+    "ingredients": [
+      "300g de riz arborio",
+      "400g de champignons de Paris",
+      "1L de bouillon de légumes",
+      "1 oignon",
+      "100ml de vin blanc",
+      "50g de parmesan",
+      "2 cuillères à soupe d'huile d'olive",
+      "Sel et poivre"
+    ]
+  },
+  {
+    "id": "exemple-tarte-aux-pommes",
+    "title": "Tarte aux pommes",
+    "category": "dessert",
+    "servings": 6,
+    "ingredients": [
+      "1 pâte feuilletée",
+      "4 pommes",
+      "50g de sucre",
+      "1 cuillère à café de cannelle",
+      "30g de beurre",
+      "2 cuillères à soupe de confiture d'abricot"
+    ]
+  }
+]
