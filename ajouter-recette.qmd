@@ -86,19 +86,21 @@ format:
     <button type="button" class="btn-add" onclick="addInstruction()">+ Ajouter une étape</button>
 
     <div class="form-actions">
-      <button type="submit" class="btn-primary">Générer le fichier de recette</button>
+      <button type="submit" class="btn-primary">✉️ Envoyer la recette</button>
       <button type="button" class="btn-secondary" onclick="resetForm()">Réinitialiser</button>
     </div>
   </form>
 
   <div id="output" style="display: none;">
-    <h2>Fichier de recette généré</h2>
-    <p>Copiez le contenu ci-dessous et créez un nouveau fichier dans le dossier <code>recettes/</code> avec l'extension <code>.qmd</code></p>
-    <div class="filename-suggestion">
-      <strong>Nom suggéré:</strong> <code id="suggestedFilename"></code>
+    <h2>✅ Recette prête à envoyer!</h2>
+    <p>Cliquez sur le bouton ci-dessous pour m'envoyer votre recette par email. Je l'ajouterai au site dès que possible.</p>
+    <button class="btn-primary btn-email" id="emailButton">📧 Envoyer par email</button>
+    <div class="divider">
+      <span>OU</span>
     </div>
-    <textarea id="generatedContent" readonly rows="20"></textarea>
-    <button class="btn-primary" onclick="copyToClipboard()">📋 Copier dans le presse-papiers</button>
+    <p style="font-size: 0.9rem; color: #666;">Si le bouton email ne fonctionne pas, vous pouvez copier le texte ci-dessous et me l'envoyer vous-même:</p>
+    <textarea id="generatedContent" readonly rows="15"></textarea>
+    <button class="btn-secondary" onclick="copyToClipboard()">📋 Copier le texte</button>
   </div>
 </div>
 
@@ -236,6 +238,44 @@ format:
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-bottom: 1rem;
+}
+
+.btn-email {
+  font-size: 1.2rem;
+  padding: 1.5rem 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.divider {
+  text-align: center;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background-color: #f8f9fa;
+  padding: 0 1rem;
+  color: #999;
+  font-weight: 600;
 }
 </style>
 
@@ -380,8 +420,15 @@ categories: ["${category}"]`;
   }
 
   document.getElementById('generatedContent').value = content;
-  const filename = slugify(title) + '.qmd';
-  document.getElementById('suggestedFilename').textContent = `recettes/${filename}`;
+
+  // Configurer le bouton email
+  const emailButton = document.getElementById('emailButton');
+  const subject = encodeURIComponent(`Nouvelle recette: ${title}`);
+  const body = encodeURIComponent(content);
+  emailButton.onclick = function() {
+    window.location.href = `mailto:votre-email@example.com?subject=${subject}&body=${body}`;
+  };
+
   document.getElementById('output').style.display = 'block';
   document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
 });
@@ -390,7 +437,7 @@ function copyToClipboard() {
   const content = document.getElementById('generatedContent');
   content.select();
   document.execCommand('copy');
-  alert('Contenu copié dans le presse-papiers !');
+  alert('Texte copié! Vous pouvez maintenant le coller dans un email.');
 }
 </script>
 ```
