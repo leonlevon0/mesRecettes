@@ -1,0 +1,559 @@
+---
+title: "Liste de Courses"
+page-layout: full
+format:
+  html:
+    toc: false
+---
+
+```{=html}
+
+<div class="shopping-list-container">
+  <div class="intro-section">
+    <h2>📝 Générer ma liste de courses</h2>
+    <p>Sélectionnez les recettes que vous souhaitez préparer et générez automatiquement votre liste de courses.</p>
+  </div>
+
+  <div class="recipes-selection">
+    <h3>Mes Recettes</h3>
+    <div class="search-filter">
+      <input type="text" id="searchRecipes" placeholder="🔍 Rechercher une recette..." onkeyup="filterRecipes()">
+      <select id="categoryFilter" onchange="filterRecipes()">
+        <option value="">Toutes les catégories</option>
+        <option value="entree">Entrées</option>
+        <option value="plat">Plats</option>
+        <option value="dessert">Desserts</option>
+      </select>
+    </div>
+
+    <div id="recipesList" class="recipes-grid">
+      <p class="loading">Chargement des recettes...</p>
+    </div>
+  </div>
+
+  <div class="selected-section">
+    <h3>Recettes sélectionnées (<span id="selectedCount">0</span>)</h3>
+    <div id="selectedRecipes" class="selected-recipes">
+      <p class="empty-message">Aucune recette sélectionnée</p>
+    </div>
+    <button id="generateButton" class="btn-primary btn-large" onclick="generateShoppingList()" disabled>
+      🛒 Générer la liste de courses
+    </button>
+  </div>
+
+  <div id="shoppingListOutput" style="display: none;">
+    <h2>🛒 Votre Liste de Courses</h2>
+    <div class="list-actions">
+      <button class="btn-secondary" onclick="copyShoppingList()">📋 Copier</button>
+      <button class="btn-secondary" onclick="printShoppingList()">🖨️ Imprimer</button>
+      <button class="btn-secondary" onclick="downloadShoppingList()">💾 Télécharger</button>
+    </div>
+    <div id="shoppingListContent" class="shopping-list-content"></div>
+  </div>
+</div>
+
+<style>
+.shopping-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.intro-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.intro-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.search-filter {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-filter input,
+.search-filter select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.search-filter input {
+  flex: 1;
+}
+
+.search-filter select {
+  min-width: 200px;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.recipe-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.recipe-card:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.recipe-card.selected {
+  border-color: #28a745;
+  background-color: #f0f9f4;
+}
+
+.recipe-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.recipe-card h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  flex: 1;
+}
+
+.recipe-checkbox {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.recipe-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.category-entree {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.category-plat {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.category-dessert {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+.selected-section {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+}
+
+.selected-recipes {
+  min-height: 60px;
+  margin-bottom: 1.5rem;
+}
+
+.selected-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.selected-tag button {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.empty-message,
+.loading {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  margin: 0 0.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-large {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 1.25rem 2rem;
+}
+
+.list-actions {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.shopping-list-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.ingredient-category {
+  margin-bottom: 2rem;
+}
+
+.ingredient-category h3 {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.ingredient-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.ingredient-category li {
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.ingredient-category li input[type="checkbox"] {
+  margin-right: 1rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.ingredient-category li.checked {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+@media print {
+  .intro-section,
+  .recipes-selection,
+  .selected-section,
+  .list-actions {
+    display: none;
+  }
+
+  .shopping-list-content {
+    border: none;
+    padding: 0;
+  }
+}
+</style>
+
+<script>
+let allRecipes = [];
+let selectedRecipes = new Set();
+
+// Simuler le chargement des recettes (à remplacer par un vrai fetch)
+async function loadRecipes() {
+  // En production, cela devrait charger depuis les fichiers .qmd
+  // Pour l'instant, on utilise des données d'exemple
+  allRecipes = [
+    {
+      id: 'risotto',
+      title: 'Risotto aux champignons',
+      category: 'plat',
+      ingredients: [
+        '300g de riz arborio',
+        '400g de champignons de Paris',
+        '1L de bouillon de légumes',
+        '1 oignon',
+        '100ml de vin blanc',
+        '50g de parmesan',
+        '2 cuillères à soupe d\'huile d\'olive',
+        'Sel et poivre'
+      ]
+    },
+    {
+      id: 'tarte-pommes',
+      title: 'Tarte aux pommes',
+      category: 'dessert',
+      ingredients: [
+        '1 pâte feuilletée',
+        '4 pommes',
+        '50g de sucre',
+        '1 cuillère à café de cannelle',
+        '30g de beurre',
+        '2 cuillères à soupe de confiture d\'abricot'
+      ]
+    }
+  ];
+
+  displayRecipes();
+}
+
+function displayRecipes() {
+  const container = document.getElementById('recipesList');
+  if (allRecipes.length === 0) {
+    container.innerHTML = '<p class="empty-message">Aucune recette disponible pour le moment.</p>';
+    return;
+  }
+
+  container.innerHTML = allRecipes.map(recipe => `
+    <div class="recipe-card ${selectedRecipes.has(recipe.id) ? 'selected' : ''}"
+         onclick="toggleRecipe('${recipe.id}')"
+         data-recipe-id="${recipe.id}"
+         data-category="${recipe.category}">
+      <div class="recipe-card-header">
+        <h4>${recipe.title}</h4>
+        <input type="checkbox"
+               class="recipe-checkbox"
+               ${selectedRecipes.has(recipe.id) ? 'checked' : ''}
+               onclick="event.stopPropagation(); toggleRecipe('${recipe.id}')">
+      </div>
+      <div class="recipe-category category-${recipe.category}">
+        ${recipe.category === 'entree' ? 'Entrée' : recipe.category === 'plat' ? 'Plat' : 'Dessert'}
+      </div>
+      <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+        ${recipe.ingredients.length} ingrédients
+      </p>
+    </div>
+  `).join('');
+}
+
+function toggleRecipe(recipeId) {
+  if (selectedRecipes.has(recipeId)) {
+    selectedRecipes.delete(recipeId);
+  } else {
+    selectedRecipes.add(recipeId);
+  }
+  updateUI();
+}
+
+function updateUI() {
+  // Mettre à jour les cartes
+  document.querySelectorAll('.recipe-card').forEach(card => {
+    const id = card.dataset.recipeId;
+    if (selectedRecipes.has(id)) {
+      card.classList.add('selected');
+      card.querySelector('.recipe-checkbox').checked = true;
+    } else {
+      card.classList.remove('selected');
+      card.querySelector('.recipe-checkbox').checked = false;
+    }
+  });
+
+  // Mettre à jour la section des recettes sélectionnées
+  const selectedContainer = document.getElementById('selectedRecipes');
+  const count = document.getElementById('selectedCount');
+  count.textContent = selectedRecipes.size;
+
+  if (selectedRecipes.size === 0) {
+    selectedContainer.innerHTML = '<p class="empty-message">Aucune recette sélectionnée</p>';
+    document.getElementById('generateButton').disabled = true;
+  } else {
+    selectedContainer.innerHTML = Array.from(selectedRecipes).map(id => {
+      const recipe = allRecipes.find(r => r.id === id);
+      return `
+        <span class="selected-tag">
+          ${recipe.title}
+          <button onclick="event.stopPropagation(); toggleRecipe('${id}')">×</button>
+        </span>
+      `;
+    }).join('');
+    document.getElementById('generateButton').disabled = false;
+  }
+}
+
+function filterRecipes() {
+  const searchTerm = document.getElementById('searchRecipes').value.toLowerCase();
+  const category = document.getElementById('categoryFilter').value;
+
+  document.querySelectorAll('.recipe-card').forEach(card => {
+    const title = card.querySelector('h4').textContent.toLowerCase();
+    const cardCategory = card.dataset.category;
+
+    const matchesSearch = title.includes(searchTerm);
+    const matchesCategory = !category || cardCategory === category;
+
+    card.style.display = matchesSearch && matchesCategory ? 'block' : 'none';
+  });
+}
+
+function generateShoppingList() {
+  const ingredients = {};
+
+  // Collecter tous les ingrédients des recettes sélectionnées
+  selectedRecipes.forEach(recipeId => {
+    const recipe = allRecipes.find(r => r.id === recipeId);
+    recipe.ingredients.forEach(ingredient => {
+      const normalized = ingredient.toLowerCase();
+      if (!ingredients[normalized]) {
+        ingredients[normalized] = {
+          original: ingredient,
+          count: 1,
+          recipes: [recipe.title]
+        };
+      } else {
+        ingredients[normalized].count++;
+        ingredients[normalized].recipes.push(recipe.title);
+      }
+    });
+  });
+
+  // Catégoriser les ingrédients
+  const categories = categorizeIngredients(ingredients);
+
+  // Afficher la liste
+  const output = document.getElementById('shoppingListOutput');
+  const content = document.getElementById('shoppingListContent');
+
+  let html = '<h3>Recettes sélectionnées:</h3><ul>';
+  selectedRecipes.forEach(id => {
+    const recipe = allRecipes.find(r => r.id === id);
+    html += `<li>${recipe.title}</li>`;
+  });
+  html += '</ul>';
+
+  Object.keys(categories).forEach(category => {
+    if (categories[category].length > 0) {
+      html += `<div class="ingredient-category">
+        <h3>${category}</h3>
+        <ul>`;
+      categories[category].forEach(item => {
+        const detail = item.count > 1 ? ` <small>(pour ${item.count} recettes)</small>` : '';
+        html += `<li>
+          <input type="checkbox" onchange="this.parentElement.classList.toggle('checked')">
+          <span>${item.original}${detail}</span>
+        </li>`;
+      });
+      html += '</ul></div>';
+    }
+  });
+
+  content.innerHTML = html;
+  output.style.display = 'block';
+  output.scrollIntoView({ behavior: 'smooth' });
+}
+
+function categorizeIngredients(ingredients) {
+  const categories = {
+    'Fruits et Légumes': [],
+    'Viandes et Poissons': [],
+    'Produits Laitiers': [],
+    'Épicerie': [],
+    'Condiments': [],
+    'Autres': []
+  };
+
+  const fruitLegumes = ['pomme', 'poire', 'tomate', 'oignon', 'ail', 'champignon', 'carotte', 'poireau', 'salade'];
+  const viandes = ['poulet', 'bœuf', 'porc', 'poisson', 'saumon', 'thon'];
+  const laitiers = ['lait', 'crème', 'beurre', 'fromage', 'parmesan', 'yaourt'];
+  const epicerie = ['riz', 'pâtes', 'farine', 'sucre', 'pâte', 'bouillon'];
+  const condiments = ['sel', 'poivre', 'huile', 'vinaigre', 'moutarde', 'cannelle'];
+
+  Object.values(ingredients).forEach(item => {
+    const lower = item.original.toLowerCase();
+
+    if (fruitLegumes.some(f => lower.includes(f))) {
+      categories['Fruits et Légumes'].push(item);
+    } else if (viandes.some(v => lower.includes(v))) {
+      categories['Viandes et Poissons'].push(item);
+    } else if (laitiers.some(l => lower.includes(l))) {
+      categories['Produits Laitiers'].push(item);
+    } else if (epicerie.some(e => lower.includes(e))) {
+      categories['Épicerie'].push(item);
+    } else if (condiments.some(c => lower.includes(c))) {
+      categories['Condiments'].push(item);
+    } else {
+      categories['Autres'].push(item);
+    }
+  });
+
+  return categories;
+}
+
+function copyShoppingList() {
+  const content = document.getElementById('shoppingListContent');
+  const text = content.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Liste de courses copiée!');
+  });
+}
+
+function printShoppingList() {
+  window.print();
+}
+
+function downloadShoppingList() {
+  const content = document.getElementById('shoppingListContent').innerText;
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'liste-courses.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Charger les recettes au chargement de la page
+loadRecipes();
+</script>
+```

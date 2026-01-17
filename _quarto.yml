@@ -20,6 +20,8 @@ website:
             href: categories/plats.qmd
           - text: "Desserts"
             href: categories/desserts.qmd
+      - text: "🛒 Liste de courses"
+        href: liste-courses.qmd
       - text: "➕ Ajouter une recette"
         href: ajouter-recette.qmd
     right:
