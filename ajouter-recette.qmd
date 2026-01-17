@@ -1,7 +1,12 @@
 ---
 title: "Ajouter une Recette"
 page-layout: full
+format:
+  html:
+    toc: false
 ---
+
+```{=html}
 
 <div class="recipe-form-container">
   <form id="recipeForm">
@@ -388,3 +393,4 @@ function copyToClipboard() {
   alert('Contenu copié dans le presse-papiers !');
 }
 </script>
+```
