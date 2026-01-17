@@ -1,0 +1,35 @@
+---
+title: "Manti"
+description: "Super Manti à la Marash"
+date: "2026-01-17"
+categories: ["plat"]
+prepTime: 120
+cookTime: 15
+servings: 8
+difficulty: "moyen"
+tags: ["arménien", "ravioles", "yaourt", "soupe"]
+---
+
+## Ingrédients
+
+- 250g de farine
+- 500g de viande hachée
+- 50g de persil
+- Une poignée d'ail en semoule
+- 1 oeuf
+- 1kg de yaourt grec (en pot)
+- Une poignée de piment
+- Sel
+- Poivre
+
+## Instructions
+
+1. Etape 1 : faire une pâte ni trop sèche ni trop humide, comme une pâte à pizza
+2. Etape 2 : rouler la pâte puis la découper pour faire des lignes homogènes d'environ 3-4cm de largeur
+3. Etape 3 : couper ces lignes pour faire des carrés, de 3-4cm de côté
+4. Etape 4 : Mélanger la viande hachée et le persil
+5. Etape 5 : Faire des boulettes avec la viande et les mettre sur les carrés de pâte
+6. Etape 6 : Fermer les ravioles en joignant les diagonales
+7. Etape 7 : Cuire les ravioles à feu moyen avec de l'huile de tournesol.
+8. Etape 8 : Préparer la soupe, j'ai la flemme.
+9. Etape 9 : Met dedans attends un peu et mange frère.
