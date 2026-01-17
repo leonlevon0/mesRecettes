@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Mes Recettes de Cuisine"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Accueil"
+        href: index.qmd
+      - text: "Toutes les recettes"
+        href: recettes.qmd
+      - text: "Par catégorie"
+        menu:
+          - text: "Entrées"
+            href: categories/entrees.qmd
+          - text: "Plats"
+            href: categories/plats.qmd
+          - text: "Desserts"
+            href: categories/desserts.qmd
+    right:
+      - icon: github
+        href: https://github.com/leonlevon0/mesRecettes
+
+  sidebar:
+    style: "floating"
+    collapse-level: 2
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    link-external-newwindow: true
+
+execute:
+  freeze: auto

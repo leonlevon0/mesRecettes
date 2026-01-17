@@ -1,0 +1,68 @@
+/* Styles personnalisés pour le site de recettes */
+
+/* Amélioration des grilles de recettes */
+.grid {
+  gap: 2rem;
+}
+
+/* Style pour les cartes de recettes */
+.card {
+  transition: transform 0.2s;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Images de recettes */
+.card img, article img {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Mise en forme des informations de recette */
+.g-col-6 {
+  padding: 0.5rem 0;
+}
+
+/* Tags et catégories */
+.category, .tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  margin: 0.25rem;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  font-size: 0.875rem;
+}
+
+/* Sections d'ingrédients */
+article h3 {
+  color: #2c5282;
+  margin-top: 1.5rem;
+}
+
+/* Listes d'ingrédients */
+article ul {
+  line-height: 1.8;
+}
+
+/* Amélioration de la lisibilité */
+article {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Navigation */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    gap: 1rem;
+  }
+}

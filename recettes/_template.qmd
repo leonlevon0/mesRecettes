@@ -1,0 +1,67 @@
+---
+title: "Nom de la Recette"
+description: "Brève description de la recette"
+author: "Votre nom"
+date: "2026-01-17"
+categories:
+  - plat  # ou: entree, dessert, accompagnement
+tags:
+  - vegetarien  # exemples: vegan, sans-gluten, rapide, italien, français
+  - facile
+image: "../images/nom-recette.jpg"
+---
+
+## Informations
+
+::: {.grid}
+::: {.g-col-6}
+**Temps de préparation:** 15 min
+:::
+::: {.g-col-6}
+**Temps de cuisson:** 30 min
+:::
+::: {.g-col-6}
+**Portions:** 4 personnes
+:::
+::: {.g-col-6}
+**Difficulté:** Facile
+:::
+:::
+
+---
+
+![](../images/nom-recette.jpg){width=100%}
+
+## Ingrédients
+
+### Pour la base
+- 200g de ...
+- 3 cuillères à soupe de ...
+- 1 pincée de sel
+
+### Pour la garniture (optionnel)
+- ...
+
+## Préparation
+
+### Étape 1: Préparation des ingrédients
+Commencer par ...
+
+### Étape 2: Cuisson
+Ensuite ...
+
+### Étape 3: Finition
+Pour finir ...
+
+## Astuces
+
+- Conseil 1
+- Conseil 2
+
+## Variantes
+
+Vous pouvez remplacer ... par ...
+
+## Conservation
+
+Se conserve ... au réfrigérateur.

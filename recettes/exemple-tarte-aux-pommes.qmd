@@ -1,0 +1,81 @@
+---
+title: "Tarte aux Pommes Classique"
+description: "Une délicieuse tarte aux pommes à l'ancienne, croustillante et fondante"
+author: "Mes Recettes"
+date: "2026-01-17"
+categories:
+  - dessert
+tags:
+  - français
+  - automne
+  - facile
+  - classique
+image: "../images/placeholder.jpg"
+---
+
+## Informations
+
+::: {.grid}
+::: {.g-col-6}
+**Temps de préparation:** 20 min
+:::
+::: {.g-col-6}
+**Temps de cuisson:** 40 min
+:::
+::: {.g-col-6}
+**Portions:** 6-8 personnes
+:::
+::: {.g-col-6}
+**Difficulté:** Facile
+:::
+:::
+
+---
+
+![](../images/placeholder.jpg){width=100%}
+
+## Ingrédients
+
+### Pour la pâte brisée
+- 250g de farine
+- 125g de beurre froid
+- 1 pincée de sel
+- 3-4 cuillères à soupe d'eau froide
+
+### Pour la garniture
+- 6-7 pommes (Reinette, Granny Smith ou Golden)
+- 50g de sucre
+- 50g de beurre
+- 1 sachet de sucre vanillé
+- 1 jaune d'œuf pour la dorure
+- Cannelle (optionnel)
+
+## Préparation
+
+### Étape 1: Préparer la pâte brisée
+Dans un saladier, mélanger la farine et le sel. Ajouter le beurre coupé en petits morceaux et sabler du bout des doigts jusqu'à obtenir une texture sableuse. Ajouter l'eau froide progressivement et former une boule. Filmer et réserver au frais 30 minutes.
+
+### Étape 2: Préparer les pommes
+Éplucher les pommes, les couper en quartiers puis en tranches fines. Les disposer dans un saladier avec le sucre et le sucre vanillé. Mélanger délicatement.
+
+### Étape 3: Montage
+Préchauffer le four à 180°C. Étaler la pâte et la disposer dans un moule à tarte beurré. Piquer le fond avec une fourchette. Disposer les pommes en rosace sur la pâte. Parsemer de noisettes de beurre.
+
+### Étape 4: Cuisson
+Dorer les bords de la pâte au jaune d'œuf. Enfourner pour 40 minutes jusqu'à ce que les pommes soient tendres et légèrement caramélisées.
+
+## Astuces
+
+- Pour une pâte encore plus croustillante, saupoudrer le fond de poudre d'amandes avant d'ajouter les pommes
+- Vous pouvez ajouter une cuillère à café de cannelle aux pommes pour plus de parfum
+- Servir tiède avec une boule de glace vanille ou de la crème fraîche
+
+## Variantes
+
+- **Tarte normande:** Ajouter un appareil à base de crème fraîche et d'œufs
+- **Tarte Tatin:** Caraméliser les pommes avant de les recouvrir de pâte
+- Remplacer la moitié des pommes par des poires pour une tarte pommes-poires
+
+## Conservation
+
+Se conserve 2-3 jours dans une boîte hermétique à température ambiante. Peut se réchauffer 5 minutes au four.

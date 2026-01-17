@@ -1,0 +1,16 @@
+---
+title: "Entrées"
+listing:
+  contents: ../recettes
+  type: grid
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  fields: [image, title, description, date, tags]
+  page-size: 12
+  include:
+    categories: "entree"
+page-layout: full
+---
+
+Découvrez mes recettes d'entrées pour bien commencer le repas.

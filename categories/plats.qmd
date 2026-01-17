@@ -1,0 +1,16 @@
+---
+title: "Plats"
+listing:
+  contents: ../recettes
+  type: grid
+  sort: "date desc"
+  categories: true
+  filter-ui: true
+  fields: [image, title, description, date, tags]
+  page-size: 12
+  include:
+    categories: "plat"
+page-layout: full
+---
+
+Découvrez mes recettes de plats principaux.

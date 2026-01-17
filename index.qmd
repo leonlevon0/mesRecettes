@@ -1,0 +1,44 @@
+---
+title: "Bienvenue dans Mes Recettes"
+page-layout: full
+---
+
+## Bienvenue dans ma collection de recettes
+
+Découvrez mes recettes de cuisine favorites, soigneusement documentées et testées.
+
+### Recettes récentes
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6 .g-col-lg-4}
+[![](images/placeholder.jpg){width=100%}](recettes/exemple-tarte-aux-pommes.qmd)
+
+**[Tarte aux Pommes](recettes/exemple-tarte-aux-pommes.qmd)**
+
+Un classique de la pâtisserie française, simple et délicieux.
+
+*Tags: dessert, français, automne*
+:::
+
+::: {.g-col-12 .g-col-md-6 .g-col-lg-4}
+[![](images/placeholder.jpg){width=100%}](recettes/exemple-risotto.qmd)
+
+**[Risotto aux Champignons](recettes/exemple-risotto.qmd)**
+
+Un risotto crémeux et parfumé aux champignons de saison.
+
+*Tags: plat, italien, végétarien*
+:::
+
+:::
+
+### Explorer par catégorie
+
+- **[Entrées](categories/entrees.qmd)** - Commencez le repas en beauté
+- **[Plats](categories/plats.qmd)** - Le cœur du repas
+- **[Desserts](categories/desserts.qmd)** - La touche finale sucrée
+
+### À propos
+
+Ce site contient mes recettes personnelles. N'hésitez pas à les essayer et à les adapter à vos goûts !

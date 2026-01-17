@@ -1,0 +1,15 @@
+---
+title: "Toutes les Recettes"
+listing:
+  contents: recettes
+  type: grid
+  sort: "date desc"
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  fields: [image, title, description, date, categories, tags]
+  page-size: 12
+page-layout: full
+---
+
+Explorez toutes mes recettes de cuisine. Utilisez les filtres pour trouver exactement ce que vous cherchez !

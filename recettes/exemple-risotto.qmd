@@ -1,0 +1,88 @@
+---
+title: "Risotto aux Champignons"
+description: "Un risotto crémeux et onctueux aux champignons parfumé au parmesan"
+author: "Mes Recettes"
+date: "2026-01-17"
+categories:
+  - plat
+tags:
+  - italien
+  - végétarien
+  - champignons
+  - automne
+  - réconfortant
+image: "../images/placeholder.jpg"
+---
+
+## Informations
+
+::: {.grid}
+::: {.g-col-6}
+**Temps de préparation:** 10 min
+:::
+::: {.g-col-6}
+**Temps de cuisson:** 25 min
+:::
+::: {.g-col-6}
+**Portions:** 4 personnes
+:::
+::: {.g-col-6}
+**Difficulté:** Moyenne
+:::
+:::
+
+---
+
+![](../images/placeholder.jpg){width=100%}
+
+## Ingrédients
+
+### Pour le risotto
+- 300g de riz arborio (ou carnaroli)
+- 400g de champignons de Paris (ou mélange de champignons)
+- 1 oignon
+- 2 gousses d'ail
+- 1L de bouillon de légumes (chaud)
+- 100ml de vin blanc sec
+- 50g de parmesan râpé
+- 50g de beurre
+- 3 cuillères à soupe d'huile d'olive
+- Persil frais
+- Sel et poivre
+
+## Préparation
+
+### Étape 1: Préparer les ingrédients
+Nettoyer et émincer les champignons. Hacher finement l'oignon et l'ail. Faire chauffer le bouillon de légumes et le maintenir chaud.
+
+### Étape 2: Faire revenir les champignons
+Dans une grande poêle, faire chauffer 2 cuillères d'huile d'olive. Faire revenir les champignons à feu vif jusqu'à ce qu'ils soient dorés. Assaisonner, réserver.
+
+### Étape 3: Nacrer le riz
+Dans une grande casserole, faire chauffer le reste d'huile et 20g de beurre. Faire revenir l'oignon et l'ail jusqu'à ce qu'ils soient translucides. Ajouter le riz et le nacrer 2 minutes en remuant.
+
+### Étape 4: Cuisson du risotto
+Déglacer avec le vin blanc et laisser évaporer. Ajouter une louche de bouillon chaud et remuer régulièrement. Quand le liquide est absorbé, ajouter une nouvelle louche. Répéter l'opération pendant 18-20 minutes.
+
+### Étape 5: Finition
+Quand le riz est cuit (al dente), ajouter les champignons, le reste du beurre et le parmesan. Remuer vigoureusement pour obtenir une texture crémeuse. Rectifier l'assaisonnement.
+
+### Étape 6: Dressage
+Servir immédiatement, parsemer de persil frais et de copeaux de parmesan.
+
+## Astuces
+
+- Le secret d'un bon risotto est de remuer régulièrement et d'ajouter le bouillon progressivement
+- Le riz doit rester légèrement ferme (al dente) et le risotto doit être crémeux, pas sec
+- Vous pouvez ajouter un peu de crème fraîche en fin de cuisson pour plus d'onctuosité
+- Réhydrater des champignons séchés (cèpes, morilles) dans le bouillon pour plus de saveur
+
+## Variantes
+
+- **Risotto aux asperges:** Remplacer les champignons par des asperges vertes
+- **Risotto au safran:** Ajouter une dose de safran au bouillon
+- **Risotto aux fruits de mer:** Remplacer les champignons par des fruits de mer et le bouillon par du fumet de poisson
+
+## Conservation
+
+Le risotto se déguste immédiatement. Les restes peuvent être transformés en arancini (boulettes de riz panées) le lendemain.
