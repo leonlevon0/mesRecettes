@@ -426,7 +426,7 @@ categories: ["${category}"]`;
   const subject = encodeURIComponent(`Nouvelle recette: ${title}`);
   const body = encodeURIComponent(content);
   emailButton.onclick = function() {
-    window.location.href = `mailto:votre-email@example.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:jeanfrancoisbernardduchemin@gmail.com?subject=${subject}&body=${body}`;
   };
 
   document.getElementById('output').style.display = 'block';
