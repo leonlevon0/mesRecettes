@@ -1,6 +1,6 @@
 ---
 title: "Manti"
-description: "Super Manti à la Marash"
+description: "Super Manti dans sa soupe de yaourt à la menthe"
 date: "2026-01-17"
 categories: ["plat"]
 prepTime: 120
@@ -21,6 +21,7 @@ tags: ["arménien", "ravioles", "yaourt", "soupe"]
 - Une poignée de piment
 - Sel
 - Poivre
+- 50g de menthe
 
 ## Instructions
 
