@@ -1,0 +1,28 @@
+---
+title: "Bavette aux champignons de Paris"
+description: "Bavette et champignons sauce crème fraiche."
+date: "2026-01-18"
+categories: ["plat"]
+prepTime: 15
+cookTime: 10
+servings: 2
+difficulty: "facile"
+tags: ["viande", "rapide"]
+---
+
+## Ingrédients
+
+- 250g de bavette
+- 25cl de crème fraiche épaisse
+- 250g de champignons de Paris
+- Une poignée de persil
+- Deux noix de beurre
+- Poivre
+- 2 oignons
+
+## Instructions
+
+1. Éplucher et émincer les oignons. Nettoyer et couper les champignons en rondelles.
+2. Dans une casserole faire chauffer le beurre et y mettre à revenir les oignons. Ajouter ensuite les champignons et bien mélanger pour éviter que ça n'accroche.
+3. Ajouter la crème et laisser mijoter quelques minutes. Poivrer la sauce.
+4. Pendant ce temps faire cuire vos bavettes avec le beurre. Bien faire chauffer à feu vif les deux côtés des bavettes pendant respectivement une minute, puis réduire à feu moyen pendant 4 minutes en retournant les morceaux à 2 minutes.
