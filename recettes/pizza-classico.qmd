@@ -1,0 +1,27 @@
+---
+title: "Pizza classique lardons fromage rapé"
+description: "Une pizza vite fait classique."
+date: "2026-01-18"
+categories: ["plat"]
+prepTime: 5
+cookTime: 20
+servings: 2
+difficulty: "facile"
+tags: ["pizza", "rapide", "facile", "viande"]
+---
+
+## Ingrédients
+
+- 1 pâte à pizza préfaite
+- 1 boite à lardons
+- 100g de fromage rapé
+- 1/2 pot de sauce tomate
+- Poivre
+- Herbes de provence
+- Une poignée de roquette
+
+## Instructions
+
+1. Préchauffer le four à 200°C
+2. Faire la pizza en fait
+3. Mettre dans le four et attendre 20 minutes
